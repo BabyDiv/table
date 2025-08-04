@@ -1,0 +1,90 @@
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+:root {
+  --color-primary: #00F8FE;
+  --color-tab: #585858;
+  --color-tab-active: #3A3A3A;
+  --color-tab-text: #FFFFFF;
+}
+
+.table {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 12px;
+  box-sizing: border-box;
+  overflow-x: scroll;
+
+  @media(min-width: 1064px) {
+    font-size: 20px;
+  }
+}
+
+.table__head {
+  background-color: var(--color-primary);
+}
+
+.table__cell {
+  padding: 8px 18px;
+  text-align: center;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-left: 2px solid var(--color-primary);
+  border-right: 2px solid var(--color-primary);
+  border-top: none;
+  border-bottom: none;
+
+  @media(min-width: 1064px) {
+    padding: 15px 34px;
+  }
+}
+
+.table__cell--head {
+  border: none; 
+}
+
+.table__element {
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.table__body {
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.table__tabs {
+  display: flex;
+  flex-direction: row;
+}
+
+.table__tab-button {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 3%;
+  color: var(--color-tab-text);
+  background-color: var(--color-tab);
+  padding: 8px 18px;
+  border: none;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  cursor: pointer;
+
+  @media(min-width: 1064px) {
+    font-size: 32px;
+    padding: 18px 28px;
+  }
+}
+
+.table__tab-button:hover,
+.table__tab-button:active {
+  background-color: var(--color-tab-active);
+}
