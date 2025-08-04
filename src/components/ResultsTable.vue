@@ -13,7 +13,7 @@
         :class="{ 'table__tab-button--active': activeTab === 'season' }"
         @click="activeTab = 'season'"
       >
-        Статистика сезона
+        История
       </button>
     </div>
 
@@ -35,14 +35,94 @@
         <tbody class="table__body">
           <tr class="table__row" v-for="(game, index) in recent_games" :key="index">
             <td class="table__cell">{{ game.match }}</td>
-            <td class="table__cell">{{ game.G }}</td>
-            <td class="table__cell">{{ game.P }}</td>
-            <td class="table__cell">{{ game.PM }}</td>
-            <td class="table__cell">{{ game.PIM }}</td>
-            <td class="table__cell">{{ game.PP }}</td>
-            <td class="table__cell">{{ game.FO }}</td>
-            <td class="table__cell">{{ game.ice_time }}</td>
-            <td class="table__cell">{{ game.SOG }}</td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'G')" @click="startEdit(index, 'G')">{{ game.G }}</span>
+              <input
+                v-else
+                v-model="recent_games[index].G"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'P')" @click="startEdit(index, 'P')">{{ game.P }}</span>
+              <input
+                v-else
+                v-model="recent_games[index].P"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'PM')" @click="startEdit(index, 'PM')">{{ game.PM }}</span>
+              <input
+                v-else
+                v-model="recent_games[index].PM"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'PIM')" @click="startEdit(index, 'PIM')">{{ game.PIM }}</span>
+              <input
+                v-else
+                v-model="recent_games[index].PIM"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'PP')" @click="startEdit(index, 'PP')">{{ game.PP }}</span>
+              <input
+                v-else
+                v-model="recent_games[index].PP"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'FO')" @click="startEdit(index, 'FO')">{{ game.FO }}</span>
+              <input
+                v-else
+                v-model="recent_games[index].FO"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'ice_time')" @click="startEdit(index, 'ice_time')">{{ game.ice_time }}</span>
+              <input
+                v-else
+                v-model="recent_games[index].ice_time"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'SOG')" @click="startEdit(index, 'SOG')">{{ game.SOG }}</span>
+              <input
+                v-else
+                v-model="recent_games[index].SOG"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
           </tr>
         </tbody>
       </table>
@@ -63,22 +143,128 @@
             <th class="table__cell table__cell--head">Время</th>
           </tr>
         </thead>
+
         <tbody class="table__body">
           <tr class="table__row" v-for="(season, index) in seasonStats" :key="'season-' + index">
-            <td class="table__cell">{{ season.season }}</td>
-            <td class="table__cell">{{ season.team }}</td>
-            <td class="table__cell">{{ season.GP }}</td>
-            <td class="table__cell">{{ season.G }}</td>
-            <td class="table__cell">{{ season.A }}</td>
-            <td class="table__cell">{{ season.P }}</td>
-            <td class="table__cell">{{ season.PM }}</td>
-            <td class="table__cell">{{ season.PIM }}</td>
-            <td class="table__cell">{{ season.ice_time }}</td>
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'season', 'season')" @click="startEdit(index, 'season', 'season')">
+                {{ season.season }}
+              </span>
+              <input
+                v-else
+                v-model="seasonStats[index].season"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'team', 'season')" @click="startEdit(index, 'team', 'season')">
+                {{ season.team }}
+              </span>
+              <input
+                v-else
+                v-model="seasonStats[index].team"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'GP', 'season')" @click="startEdit(index, 'GP', 'season')">
+                {{ season.GP }}
+              </span>
+              <input
+                v-else
+                v-model="seasonStats[index].GP"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'G', 'season')" @click="startEdit(index, 'G', 'season')">
+                {{ season.G }}
+              </span>
+              <input
+                v-else
+                v-model="seasonStats[index].G"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'A', 'season')" @click="startEdit(index, 'A', 'season')">
+                {{ season.A }}
+              </span>
+              <input
+                v-else
+                v-model="seasonStats[index].A"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'P', 'season')" @click="startEdit(index, 'P', 'season')">
+                {{ season.P }}
+              </span>
+              <input
+                v-else
+                v-model="seasonStats[index].P"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'PM', 'season')" @click="startEdit(index, 'PM', 'season')">
+                {{ season.PM }}
+              </span>
+              <input
+                v-else
+                v-model="seasonStats[index].PM"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'PIM', 'season')" @click="startEdit(index, 'PIM', 'season')">
+                {{ season.PIM }}
+              </span>
+              <input
+                v-else
+                v-model="seasonStats[index].PIM"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
+
+            <td class="table__cell">
+              <span v-if="!editingCell(index, 'ice_time', 'season')" @click="startEdit(index, 'ice_time', 'season')">
+                {{ season.ice_time }}
+              </span>
+              <input
+                v-else
+                v-model="seasonStats[index].ice_time"
+                @blur="stopEdit"
+                @keyup.enter="stopEdit"
+                type="text"
+              />
+            </td>
           </tr>
         </tbody>
       </table>
-
-      
     </div>
   </div>
 </template>
@@ -88,6 +274,7 @@
     data() {
       return {
         activeTab: 'recent',
+        editing: { row: null, column: null },
         recent_games: [
           {
             match: "Трактор 3:2 АК Барс",
@@ -181,7 +368,19 @@
           }
         ]
       };
+    },
+    methods: {
+      startEdit(row, column) {
+        this.editing = { row, column };
+      },
+      stopEdit() {
+        this.editing = { row: null, column: null };
+      },
+      editingCell(row, column) {
+        return this.editing.row === row && this.editing.column === column;
+      }
     }
   };
 </script>
+
 
